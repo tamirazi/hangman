@@ -50,6 +50,17 @@ pic7 = '''
     |      / \\
     |
 '''
+
+HANGMAN_ASCII_ART = ''' 
+  _    _                                         
+ | |  | |                                        
+ | |__| | __ _ _ __   __ _ _ __ ___   __ _ _ __  
+ |  __  |/ _` | '_ \ / _` | '_ ` _ \ / _` | '_ \ 
+ | |  | | (_| | | | | (_| | | | | | | (_| | | | |
+ |_|  |_|\__,_|_| |_|\__, |_| |_| |_|\__,_|_| |_|
+                      __/ |                      
+                     |___/
+'''
 HANGMAN_PHOTOS = {
     1: pic1,
     2: pic2,
@@ -64,5 +75,5 @@ HANGMAN_PHOTOS = {
 def print_hangman(num_of_tries):
     print(HANGMAN_PHOTOS[num_of_tries])
 
-
-print_hangman(6)
+def print_start_screen():
+    print(HANGMAN_ASCII_ART)
