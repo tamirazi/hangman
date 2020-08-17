@@ -51,7 +51,7 @@ def check_win(secret_word, old_letters_guessed):
 def print_game_screen(guess_num, secret_word, old_letters_guessed):
     #this function created to shrink the main loop (only prints here)
     hangman_pictures.print_hangman(guess_num)
-    print(show_hidden_word(secret_word, old_letters_guessed),'\n')
+    print('Animal : ' + show_hidden_word(secret_word, old_letters_guessed),'\n')
     if guess_num > MAX_TRIES:
         print(Back.RED +  'YOU LOSE! try next time :)' + Style.RESET_ALL)
     else:
