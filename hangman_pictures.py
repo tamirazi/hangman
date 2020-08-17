@@ -1,3 +1,6 @@
+from colorama import Fore, Back, Style
+
+
 pic1 = '''
     x-------x
 '''
@@ -73,7 +76,7 @@ HANGMAN_PHOTOS = {
 
 
 def print_hangman(num_of_tries):
-    print(HANGMAN_PHOTOS[num_of_tries])
+    print(Fore.MAGENTA +  HANGMAN_PHOTOS[num_of_tries] + Style.RESET_ALL)
 
 def print_start_screen():
-    print(HANGMAN_ASCII_ART)
+    print(Fore.GREEN + HANGMAN_ASCII_ART + Style.RESET_ALL)

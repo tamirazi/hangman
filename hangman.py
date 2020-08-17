@@ -1,14 +1,18 @@
 import random
 import hangman_pictures
+from colorama import Fore, Back, Style
 
-def choose_word(file_path, index):
+MAX_TRIES = 6
+
+def choose_word():
+    file_path = 'animals.txt'
     f = open(file_path, 'r')
     words = []
     for row in f:
         words.append(row.split('\n')[0])
 
-    mod_index = index % len(words)
-    return len(set(words)), words[mod_index - 1]
+    random_index = random.randint(0, len(words))
+    return words[random_index]
 
 def check_valid_input(letter_guessed, old_letters_guessed):
     if len(letter_guessed) > 1:
@@ -26,7 +30,7 @@ def try_update_letter_guessed(letter_guessed, old_letters_guessed):
     else:
         print('X')
         old_letters_guessed.sort()
-        print(' -> '.join(old_letters_guessed))
+        print(Back.BLUE + Fore.RED +  ' -> '.join(old_letters_guessed) + Style.RESET_ALL)
         return False
 
 def show_hidden_word(secret_word, old_letters_guessed):
@@ -44,33 +48,32 @@ def check_win(secret_word, old_letters_guessed):
             return False
     return True
 
-
+def print_game_screen(guess_num, secret_word, old_letters_guessed):
+    #this function created to shrink the main loop (only prints here)
+    hangman_pictures.print_hangman(guess_num)
+    print(show_hidden_word(secret_word, old_letters_guessed),'\n')
+    if guess_num > MAX_TRIES:
+        print(Back.RED +  'YOU LOSE! try next time :)' + Style.RESET_ALL)
+    else:
+        print(Fore.BLUE + 'Guess number : %s/%s' % (guess_num, MAX_TRIES) + Style.RESET_ALL)
+    
 def main():
-    turn = 1
+    guess_num = 1
     old_letters_guessed = []
-    MAX_TRIES = 6
     hangman_pictures.print_start_screen()
-    num_of_words = choose_word('animals.txt', 1)[0]
-
-    random_index = random.randint(0, num_of_words)
-    secret_word = choose_word('animals.txt', random_index)[1]
-    # print(secret_word)
-    while(turn <= MAX_TRIES):
-        hangman_pictures.print_hangman(turn)
-        print(show_hidden_word(secret_word, old_letters_guessed),'\n')
-        print('Turn %s/%s' % (turn, MAX_TRIES))
-        letter_guessed = input('Guess a letter :')
+    secret_word = choose_word()
+    while(guess_num <= MAX_TRIES):
+        print_game_screen(guess_num, secret_word, old_letters_guessed)
+        letter_guessed = input(Fore.YELLOW +  'Guess a letter : ' + Style.RESET_ALL)
         if try_update_letter_guessed(letter_guessed, old_letters_guessed):
             if letter_guessed not in secret_word:
-                print(':(')
-                turn += 1
+                print(Back.WHITE + Fore.BLACK + ':(' + Style.RESET_ALL)
+                guess_num += 1
         if check_win(secret_word, old_letters_guessed):
-            print('YOU WIN!!!')
+            print(Fore.CYAN +  'YOU WIN!!!' + Style.RESET_ALL)
             exit(1)
-        
-    hangman_pictures.print_hangman(turn)
-    print(show_hidden_word(secret_word, old_letters_guessed),'\n')
-    print('YOU LOSE! try next time :)')
+
+    print_game_screen(guess_num, secret_word, old_letters_guessed)
 
 if __name__ == "__main__":
     main()
